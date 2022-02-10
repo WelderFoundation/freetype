@@ -61,6 +61,8 @@
     /* predates clang; the `__BYTE_ORDER__' preprocessor symbol was */
     /* introduced in gcc 4.6 and clang 3.2, respectively.           */
     /* `__builtin_shuffle' for gcc was introduced in gcc 4.7.0.     */
+    //+WELDER
+    // Disable intrinsics on Emscripten.
 #if ( ( defined( __GNUC__ )                                &&             \
         ( ( __GNUC__ >= 5 )                              ||               \
         ( ( __GNUC__ == 4 ) && ( __GNUC_MINOR__ >= 7 ) ) ) )         ||   \
@@ -68,7 +70,8 @@
         ( ( __clang_major__ >= 4 )                               ||       \
         ( ( __clang_major__ == 3 ) && ( __clang_minor__ >= 2 ) ) ) ) ) && \
     defined( __OPTIMIZE__ )                                            && \
-    __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+    __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__ && !defined(EMSCRIPTEN)
+    //-WELDER
 
 #ifdef __clang__
     /* the clang documentation doesn't cover the two-argument case of */
